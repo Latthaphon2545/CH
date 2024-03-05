@@ -1,5 +1,3 @@
-/* Navbar.css */
-
 nav {
     background-color: #333;
     padding: 10px 0;
@@ -25,4 +23,49 @@ nav ul li a {
 
 nav ul li a:hover {
     color: #007bff;
+}
+
+@media only screen and (max-width: 600px) {
+    /* Styles for mobile screens */
+    nav ul {
+        flex-direction: column;
+    }
+
+    nav ul li {
+        margin: 10px 0;
+    }
+
+    nav ul li a {
+        font-size: 16px;
+    }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 1024px) {
+    /* Styles for tablet screens */
+    nav ul {
+        flex-direction: row;
+    }
+
+    nav ul li {
+        margin: 0 10px;
+    }
+
+    nav ul li a {
+        font-size: 18px;
+    }
+}
+
+@media only screen and (min-width: 1025px) {
+    /* Styles for computer screens */
+    nav ul {
+        flex-direction: row;
+    }
+
+    nav ul li {
+        margin: 0 15px;
+    }
+
+    nav ul li a {
+        font-size: 18px;
+    }
 }
