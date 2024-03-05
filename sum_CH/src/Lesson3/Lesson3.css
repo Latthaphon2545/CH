@@ -1,0 +1,160 @@
+.number ul,
+.Vocabulary ul {
+    display: flex;
+    /* flex-wrap: wrap; */
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow: auto;
+    height: 170px;
+}
+
+.number ul li,.Vocabulary ul li {
+    flex: 1 0 10%; /* This will make the items take up 20% of the container width, allowing 5 items per line */
+    margin-right: 10px;
+}
+
+.day ul {
+    display: flex;
+    list-style: none;
+    justify-content: space-around;
+    margin: 0;
+}
+
+.boarder {
+    width: 100px;
+    height: 150px;
+    border-radius: 10%;
+    background-color: #fff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    display:  grid;
+    justify-content: center;
+    align-items: center;
+}
+
+.boarder p {
+    text-align: center;
+}
+
+.number ul :hover,
+.Vocabulary ul :hover,
+.day ul :hover {
+    background-color: #786b6b;
+}
+
+.Monday,
+.Tuesday,
+.Wednesday,
+.Thursday,
+.Friday,
+.Saturday,
+.Sunday {
+    width: 140px;
+    height: 160px;
+    border-radius: 10%;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    display: grid;
+    justify-content: center;
+    align-items: center;
+}
+
+.Monday {
+    background-color: yellow;
+}
+
+.Tuesday {
+    background-color: pink;
+}
+
+.Wednesday {
+    background-color: green;
+}
+
+.Thursday {
+    background-color: orange;
+}
+
+.Friday {
+    background-color: lightblue;
+}
+
+.Saturday {
+    background-color: purple;
+}
+
+.Sunday {
+    background-color: red;
+}
+
+.Monday p,
+.Tuesday p,
+.Wednesday p,
+.Thursday p,
+.Friday p,
+.Saturday p,
+.Sunday p {
+    text-align: center;
+}
+
+.imputNumber {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.Conversation {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Conversation h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.Conversation ul {
+    width: 60%;
+    list-style-type: none;
+    padding: 0;
+}
+
+.Conversation ul li {
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+.Conversation ul li img {
+    width: 60px;
+
+}
+
+.Conversation ul li p {
+    margin: 0;
+}
+
+.Conversationmen {
+    text-align: right;
+}
+
+.Conversation .read {
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.Conversation .read:hover {
+    background-color: rgb(136, 136, 136);
+    color: black;
+}
