@@ -5,139 +5,71 @@ import Navbar from "../Navbar";
 import Men from ".././img/m.png";
 import Women from ".././img/w.png";
 
-const conversation1 = [
+const conversation = [
   {
-    who: "Mǎ Lì",
+    who: "A",
     pinyin: "Nǐ hǎo! Xiǎo péng you! Nǐ jiào shén me míng zi?",
     chinese: "你好！小朋友！你叫什么名字？",
     english: "Hello! Little friend! What is your name?",
   },
   {
-    who: "Xiǎo nán hái",
+    who: "B",
     pinyin: "Wǒ jiào Zhào Hàn.",
     chinese: "我叫赵汉。",
     english: "My name is Zhao Han.",
   },
   {
-    who: "Mǎ Lì",
+    who: "A",
     pinyin: "Nǐ jīn nián jǐ suì?",
     chinese: "你今年几岁？",
     english: "How old are you this year?",
   },
   {
-    who: "Xiǎo nán hái",
+    who: "B",
     pinyin: "Nǐ cāi wǒ jǐ suì?",
     chinese: "你猜我几岁？",
     english: "Guess how old I am?",
   },
   {
-    who: "Mǎ Lì",
+    who: "A",
     pinyin: "5 suì?",
     chinese: "5岁？",
     english: "5 years old?",
   },
   {
-    who: "Xiǎo nán hái",
+    who: "B",
     pinyin: "Bú duì.",
     chinese: "不对。",
     english: "No.",
   },
   {
-    who: "Mǎ Lì",
+    who: "A",
     pinyin: "7 suì?",
     chinese: "7岁？",
     english: "7 years old?",
   },
   {
-    who: "Xiǎo nán hái",
+    who: "B",
     pinyin: "Bú duì, wǒ jīn nián liù suì.",
     chinese: "不对，我今年六岁。",
     english: "No, I'm 6 years old this year.",
   },
   {
-    who: "Mǎ Lì",
+    who: "A",
     pinyin: "6 suì. Qǐng wèn nǐ rèn shi zhè gè ā yí ma?",
     chinese: "6岁。请问你认识这个阿姨吗？",
     english: "6 years old. Do you know this aunt?",
   },
   {
-    who: "Xiǎo nán hái",
+    who: "B",
     pinyin: "Bú rèn shi.",
     chinese: "不认识。",
     english: "No.",
   },
 ];
 
-const conversation2 = [
-  {
-    who: "Màikè",
-    pinyin: "1 2 3 4 5 6 7 8；2 2 3 4......",
-    chinese: "1 2 3 4 5 6 7 8；2 2 3 4......",
-    english: "1 2 3 4 5 6 7 8; 2 2 3 4......",
-  },
-  {
-    who: "Zhāng Yuán Yuán",
-    pinyin: "Jiào liàn, nǐ hǎo!",
-    chinese: "教练，你好！",
-    english: "Coach, hello!",
-  },
-  {
-    who: "Màikè",
-    pinyin: "Nǐ hǎo! Yǒu shén me shì ér ma?",
-    chinese: "你好！有什么事儿吗？",
-    english: "Hello! What's up?",
-  },
-  {
-    who: "Zhāng Yuán Yuán",
-    pinyin: "Wǒ xiǎng jiàn shēn.",
-    chinese: "我想健身。",
-    english: "I want to work out.",
-  },
-  {
-    who: "Màikè",
-    pinyin: "Nǐ jiào shén me míng zi? Jīn nián duō dà?",
-    chinese: "你叫什么名字？今年多大？",
-    english: "What's your name? How old are you?",
-  },
-  {
-    who: "Zhāng Yuán Yuán",
-    pinyin: "Wǒ jiào Zhāng Yuán Yuán, 21 suì.",
-    chinese: "我叫张媛媛，21岁。",
-    english: "My name is Zhang Yuanyuan, 21 years old.",
-  },
-  {
-    who: "Màikè",
-    pinyin: "Zhāng Yuán Yuán, nǚ, 21 suì.",
-    chinese: "张媛媛，女，21岁。",
-    english: "Zhang Yuanyuan, female, 21 years old.",
-  },
-  {
-    who: "Zhāng Yuán Yuán",
-    pinyin: "Hǎo, nǐ xīng qī liù xià wǔ lái, kě yǐ ma?.",
-    chinese: "好，你星期六下午来，可以吗？",
-    english: "Okay, can you come on Saturday afternoon?",
-  },
-  {
-    who: "Màikè",
-    pinyin: "Kě yǐ.",
-    chinese: "可以。",
-    english: "Can.",
-  },
-  {
-    who: "Zhāng Yuán Yuán",
-    pinyin: "Xiè xiè, jiàn.",
-    chinese: "谢谢，见。",
-    english: "Thank you, see you.",
-  },
-  {
-    who: "Màikè",
-    pinyin: "Zàijiàn.",
-    chinese: "再见。",
-    english: "Goodbye.",
-  },
-];
 
-const vocabulary = [
+var vocabulary = [
   {
     pinyin: "jīnnián",
     chinese: "今年",
@@ -437,7 +369,85 @@ function toChineseNumber(n) {
   return result;
 }
 
-function Game() {
+vocabulary = vocabulary.sort(() => Math.random() - 0.5);
+
+const VocabularyMatcher = () => {
+  const [matches, setMatches] = useState([]);
+  const [selectedWord, setSelectedWord] = useState(null);
+  const [matchResult, setMatchResult] = useState("");
+  const [vocabularyData, setVocabularyData] = useState(vocabulary);
+  const [englishVocabularyData, setEnglishVocabularyData] = useState([...vocabulary].sort(() => Math.random() - 0.5));
+
+  const handleMatch = (word) => {
+    if (!matches.includes(word) && word.english === selectedWord.english) {
+      setMatches([...matches, word]);
+      setSelectedWord(null);
+      setMatchResult("Correct match!"); // Set matchResult to "Correct match!"
+    } else {
+      setSelectedWord(null);
+      setMatchResult("Incorrect match."); // Set matchResult to "Incorrect match."
+    }
+  };
+
+  const handleSelectWord = (word) => {
+    if (!matches.includes(word) && selectedWord === null) {
+      setSelectedWord(word);
+    }
+  };
+
+  return (
+    <div className="Matcher">
+      <h1>Vocabulary Matcher (Select chinese word 1st)</h1>
+      <div>
+        <h2>Matched Words:</h2>
+        <ul>
+          {matches.map((word, index) => (
+            <li key={index}>
+              <>
+                {word.chinese}
+                <br />
+                {word.pinyin}
+                <br />
+                {word.english}
+              </>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div>
+          <h2>Chinese Words:</h2>
+          {vocabularyData.map((word, index) => (
+            <button
+              key={index}
+              onClick={() => handleSelectWord(word)}
+              disabled={
+                matches.includes(word) ||
+                (selectedWord && selectedWord !== word)
+              }
+            >
+              {word.chinese} <br /> {word.pinyin}
+            </button>
+          ))}
+        </div>
+        <div>
+          <h2>English Words:</h2>
+          {englishVocabularyData.map((word, index) => (
+            <button
+              key={index}
+              onClick={() => handleMatch(word)}
+              disabled={matches.includes(word)}
+            >
+              {word.english}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+function Learn() {
   const [Num, setNum] = useState(0);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isAnyTextBeingRead, setIsAnyTextBeingRead] = useState(false);
@@ -455,16 +465,10 @@ function Game() {
     });
 
     window.speechSynthesis.speak(speech);
-
-    speechPromise.then(() => {
-      setIsAnyTextBeingRead(false);
-    });
   };
 
   return (
     <div className="Lesson3">
-      <Navbar />
-      {/* Number */}
       <div className="number">
         <div>
           <h1>Number</h1>
@@ -564,18 +568,18 @@ function Game() {
       <h1>Conversation</h1>
       <div className="Conversation">
         <ul>
-          {conversation1.map((item, index) => (
+          {conversation.map((item, index) => (
             <li
               key={index}
               className={`Conversation${
-                item.who === "Mǎ Lì" ? "women" : "men"
+                item.who === "A" ? "women" : "men"
               }`}
             >
               <div>
-                {item.who === "Mǎ Lì" ? (
+                {item.who === "A" ? (
                   <>
                     <img
-                      src={item.who === "Mǎ Lì" ? Women : Men}
+                      src={item.who === "A" ? Women : Men}
                       alt=""
                       onClick={() => handleReadText(item.chinese)}
                     />
@@ -599,14 +603,14 @@ function Game() {
                       🔊
                     </button>
                     <img
-                      src={item.who === "Mǎ Lì" ? Women : Men}
+                      src={item.who === "A" ? Women : Men}
                       alt=""
                       onClick={() => handleReadText(item.chinese)}
                     />
                   </>
                 )}
               </div>
-              {item.who === "Mǎ Lì" ? (
+              {item.who === "A" ? (
                 <>
                   <p>
                     {item.who} : {item.pinyin}
@@ -639,4 +643,38 @@ function Game() {
   );
 }
 
-export default Game;
+function Main() {
+  const [showVocabularyMatcher, setShowVocabularyMatcher] = useState(false);
+  const [showLearn, setShowLearn] = useState(true);
+
+  const handleShowVocabularyMatcher = () => {
+    setShowVocabularyMatcher(true);
+    setShowLearn(false);
+  };
+
+  const handleShowLearn = () => {
+    setShowVocabularyMatcher(false);
+    setShowLearn(true);
+  };
+
+  return (
+    <div className="Main">
+      <Navbar />
+      <div style={{ textAlign: "center", padding: "20px" }}>
+        <h1>Lesson 3 : How old are you?</h1>
+        <h2>Ni jinnián duõdà?</h2>
+        <h3>第三课 你今年 多大？</h3>
+      </div>
+      <div className="Chooes">
+        <button onClick={handleShowLearn}>Learn</button>
+        <button onClick={handleShowVocabularyMatcher}>
+          Game Vocabulary Matcher
+        </button>
+      </div>
+      {showVocabularyMatcher && <VocabularyMatcher />}
+      {showLearn && <Learn />}
+    </div>
+  );
+}
+
+export default Main;

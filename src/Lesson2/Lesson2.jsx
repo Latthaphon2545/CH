@@ -2,8 +2,10 @@
 import React, { useState, useEffect } from "react";
 import "./Lesson2.css";
 import Navbar from "../Navbar";
+import Men from ".././img/m.png";
+import Women from ".././img/w.png";
 
-var vocabularyData_raw = [
+var vocabulary = [
   { chinese: "你", english: "you", pinyin: "nǐ" },
   { chinese: "好", english: "well, good", pinyin: "hǎo" },
   { chinese: "我", english: "I", pinyin: "wǒ" },
@@ -20,24 +22,15 @@ var vocabularyData_raw = [
   { chinese: "对不起", english: "sorry", pinyin: "duìbuqǐ" },
   { chinese: "没关系", english: "It doesn't matter", pinyin: "méiguānxi" },
   { chinese: "学生", english: "student", pinyin: "xuésheng" },
-  {
-    chinese: "吗",
-    english: "a particle used at the end of a question",
-    pinyin: "ma",
-  },
+  { chinese: "吗", english: "?", pinyin: "ma" },
   { chinese: "贵姓", english: "your surname", pinyin: "guìxìng" },
   { chinese: "请问", english: "May I ask...?", pinyin: "qǐngwèn" },
   { chinese: "认识", english: "to meet, to know", pinyin: "rènshi" },
   { chinese: "很", english: "very", pinyin: "hěn" },
   { chinese: "高兴", english: "happy", pinyin: "gāoxìng" },
   { chinese: "也", english: "too, also", pinyin: "yě" },
-  { chinese: "来", english: "come", pinyin: "lái" },
   { chinese: "介绍", english: "to introduce", pinyin: "jièshào" },
-  {
-    chinese: "一下儿",
-    english: "used after a verb to indicate an action or an attempt",
-    pinyin: "yíxiàr",
-  },
+  { chinese: "一下儿", english: "a bit, a little", pinyin: "yíxiàr" },
   { chinese: "嗯", english: "eh", pinyin: "ēn" },
   { chinese: "从", english: "from", pinyin: "cóng" },
   { chinese: "来", english: "come", pinyin: "lái" },
@@ -58,8 +51,6 @@ var vocabularyData_raw = [
   { chinese: "妈妈", english: "mother", pinyin: "māma" },
   { chinese: "地方", english: "place, local", pinyin: "dìfang" },
 ];
-
-vocabularyData_raw = vocabularyData_raw.sort(() => Math.random() - 0.5);
 
 const conversation = [
   {
@@ -127,12 +118,16 @@ const conversation = [
   },
 ];
 
+vocabulary = vocabulary.sort(() => Math.random() - 0.5);
+
 const VocabularyMatcher = () => {
   const [matches, setMatches] = useState([]);
   const [selectedWord, setSelectedWord] = useState(null);
   const [matchResult, setMatchResult] = useState("");
-  const [vocabularyData, setVocabularyData] = useState(vocabularyData_raw);
-  const [conversationData, setConversationData] = useState(conversation);
+  const [vocabularyData, setVocabularyData] = useState(vocabulary);
+  const [englishVocabularyData, setEnglishVocabularyData] = useState(
+    [...vocabulary].sort(() => Math.random() - 0.5)
+  );
 
   const handleMatch = (word) => {
     if (!matches.includes(word) && word.english === selectedWord.english) {
@@ -152,17 +147,21 @@ const VocabularyMatcher = () => {
   };
 
   return (
-    <div>
-      <Navbar />
-      <h1>lesson 2 : Hello I come from Bangkok Thailand.</h1>
-      <h1>Vocabulary Matcher</h1>
+    <div className="Matcher">
+      <h1>Vocabulary Matcher (Select chinese word 1st)</h1>
       <div>
         <h2>Matched Words:</h2>
         <ul>
           {matches.map((word, index) => (
-            <li
-              key={index}
-            >{`${word.chinese} - ${word.pinyin} - ${word.english}`}</li>
+            <li key={index}>
+              <>
+                {word.chinese}
+                <br />
+                {word.pinyin}
+                <br />
+                {word.english}
+              </>
+            </li>
           ))}
         </ul>
       </div>
@@ -184,7 +183,7 @@ const VocabularyMatcher = () => {
         </div>
         <div>
           <h2>English Words:</h2>
-          {vocabularyData.map((word, index) => (
+          {englishVocabularyData.map((word, index) => (
             <button
               key={index}
               onClick={() => handleMatch(word)}
@@ -195,30 +194,160 @@ const VocabularyMatcher = () => {
           ))}
         </div>
       </div>
-      <div>
-        <h2>Match Result:</h2>
-        <p>{matchResult}</p> {/* Display the match result */}
-      </div>
-
-      <div>
-        <h2>Conversation:</h2>
-        {conversationData.map((line, index) => (
-          <div key={index}>
-            <p>
-              {line.who}: {line.chinese}
-            </p>
-            <p>
-              {line.who}: {line.pinyin}
-            </p>
-            <p>
-              {line.who}: {line.english}
-            </p>
-            <br />
-          </div>
-        ))}
-      </div>
     </div>
   );
 };
 
-export default VocabularyMatcher;
+function Learn() {
+  const [Num, setNum] = useState(0);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [isAnyTextBeingRead, setIsAnyTextBeingRead] = useState(false);
+
+  const handleReadText = (translatedText) => {
+    setIsAnyTextBeingRead(true);
+
+    const targetLanguage = "zh";
+    const speech = new SpeechSynthesisUtterance(translatedText);
+    speech.lang = targetLanguage;
+    speech.rate = 0.8; // Slow down the speech
+
+    const speechPromise = new Promise((resolve) => {
+      speech.onend = resolve;
+    });
+
+    window.speechSynthesis.speak(speech);
+  };
+
+  return (
+    <div className="Lesson3">
+      {/* Vocabulary */}
+      <div className="Vocabulary">
+        <h1>Vocabulary</h1>
+        <ul>
+          {vocabulary.map((item, index) => (
+            <li
+              key={index}
+              className="boarder"
+              onClick={() => handleReadText(item.chinese)}
+              disabled={isAnyTextBeingRead}
+            >
+              <p>{item.pinyin}</p>
+              <p>{item.chinese}</p>
+              <p>{item.english}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Conversation */}
+      <h1>Conversation</h1>
+      <div className="Conversation">
+        <ul>
+          {conversation.map((item, index) => (
+            <li
+              key={index}
+              className={`Conversation${item.who === "A" ? "women" : "men"}`}
+            >
+              <div>
+                {item.who === "A" ? (
+                  <>
+                    <img
+                      src={item.who === "A" ? Women : Men}
+                      alt=""
+                      onClick={() => handleReadText(item.chinese)}
+                    />
+                    <button
+                      onClick={() => handleReadText(item.chinese)}
+                      disabled={isSpeaking}
+                      style={{ fontSize: "20px" }}
+                      className="read"
+                    >
+                      🔊
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => handleReadText(item.chinese)}
+                      disabled={isSpeaking}
+                      style={{ fontSize: "20px" }}
+                      className="read"
+                    >
+                      🔊
+                    </button>
+                    <img
+                      src={item.who === "A" ? Women : Men}
+                      alt=""
+                      onClick={() => handleReadText(item.chinese)}
+                    />
+                  </>
+                )}
+              </div>
+              {item.who === "A" ? (
+                <>
+                  <p>
+                    {item.who} : {item.pinyin}
+                  </p>
+                  <p>
+                    {item.who} : {item.chinese}
+                  </p>
+                  <p>
+                    {item.who} : {item.english}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p>
+                    {item.pinyin} : {item.who}
+                  </p>
+                  <p>
+                    {item.chinese} : {item.who}
+                  </p>
+                  <p>
+                    {item.english} : {item.who}
+                  </p>
+                </>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+function Main() {
+  const [showVocabularyMatcher, setShowVocabularyMatcher] = useState(false);
+  const [showLearn, setShowLearn] = useState(true);
+
+  const handleShowVocabularyMatcher = () => {
+    setShowVocabularyMatcher(true);
+    setShowLearn(false);
+  };
+
+  const handleShowLearn = () => {
+    setShowVocabularyMatcher(false);
+    setShowLearn(true);
+  };
+
+  return (
+    <div className="Main">
+      <Navbar />
+      <div style={{ textAlign: "center", padding: "20px" }}>
+        <h1>Lesson 2 : Hello I come from Bangkok Thailand.</h1>
+        <h2>Nǐ hǎo, wǒ cóng tàiguó màngǔ lái</h2>
+        <h3>第二课:\你好, 我从泰国曼谷来</h3>
+      </div>
+      <div className="Chooes">
+        <button onClick={handleShowLearn}>Learn</button>
+        <button onClick={handleShowVocabularyMatcher}>
+          Game Vocabulary Matcher
+        </button>
+      </div>
+      {showVocabularyMatcher && <VocabularyMatcher />}
+      {showLearn && <Learn />}
+    </div>
+  );
+}
+
+export default Main;

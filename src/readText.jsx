@@ -6,4 +6,6 @@ const ReadText = (translatedText) => async () =>{
   window.speechSynthesis.speak(speech);
 };
 
-export default ReadText;
+
+
+

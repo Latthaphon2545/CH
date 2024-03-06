@@ -11,7 +11,6 @@ import Lesson8 from "./Lesson8/Lesson8";
 import Lesson9 from "./Lesson9/Lesson9";
 import Lesson10 from "./Lesson10/Lesson10";
 import Home from "./Home";
-// ... import other lessons
 
 function App() {
   return (

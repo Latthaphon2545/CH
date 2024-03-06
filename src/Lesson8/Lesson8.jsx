@@ -2,145 +2,147 @@
 import React, { useState, useEffect } from "react";
 import "./Lesson8.css";
 import Navbar from "../Navbar";
+import Men from ".././img/m.png";
+import Women from ".././img/w.png";
 
-const vocabulary = [
+var vocabulary = [
   {
-    chiness: "房子",
+    chinese: "房子",
     pinyin: "fáng zǐ",
     english: "house",
   },
   {
-    chiness: "家",
+    chinese: "家",
     pinyin: "jiā",
     english: "home",
   },
   {
-    chiness: "楼",
+    chinese: "楼",
     pinyin: "lóu",
     english: "building",
   },
   {
-    chiness: "大楼",
+    chinese: "大楼",
     pinyin: "dà lóu",
     english: "apartment building",
   },
   {
-    chiness: "小区",
+    chinese: "小区",
     pinyin: "xiǎo qū",
     english: "residential area",
   },
   {
-    chiness: "宿舍",
+    chinese: "宿舍",
     pinyin: "sù shè",
     english: "dormitory",
   },
   {
-    chiness: "房间",
+    chinese: "房间",
     pinyin: "fáng jiān",
     english: "room",
   },
   {
-    chiness: "客厅",
+    chinese: "客厅",
     pinyin: "kè tīng",
     english: "living room",
   },
   {
-    chiness: "卧室",
+    chinese: "卧室",
     pinyin: "wò shì",
     english: "bedroom",
   },
   {
-    chiness: "厨房",
+    chinese: "厨房",
     pinyin: "chú fáng",
     english: "kitchen",
   },
   {
-    chiness: "卫生间",
+    chinese: "卫生间",
     pinyin: "wèi shēng jiān",
     english: "bathroom",
   },
   {
-    chiness: "电话",
+    chinese: "电话",
     pinyin: "diàn huà",
     english: "telephone",
   },
   {
-    chiness: "电话号码",
+    chinese: "电话号码",
     pinyin: "diàn huà hào mǎ",
     english: "telephone number",
   },
   {
-    chiness: "手机",
+    chinese: "手机",
     pinyin: "shǒu jī",
     english: "cell phone",
   },
   {
-    chiness: "喂",
+    chinese: "喂",
     pinyin: "wèi",
-    english: "hello (when answering the phone)",
+    english: "hello (phone)",
   },
   {
-    chiness: "接电话",
+    chinese: "接电话",
     pinyin: "jiē diàn huà",
     english: "to answer the phone",
   },
   {
-    chiness: "等一下",
+    chinese: "等一下",
     pinyin: "děng yī xià",
     english: "wait a minute",
   },
   {
-    chiness: "健美操",
+    chinese: "健美操",
     pinyin: "jiàn měi cāo",
     english: "aerobic exercise",
   },
   {
-    chiness: "比赛",
+    chinese: "比赛",
     pinyin: "bǐ sài",
     english: "competition",
   },
   {
-    chiness: "当",
+    chinese: "当",
     pinyin: "dāng",
     english: "to act as",
   },
   {
-    chiness: "宴会",
+    chinese: "宴会",
     pinyin: "yàn huì",
     english: "banquet",
   },
   {
-    chiness: "医院",
+    chinese: "医院",
     pinyin: "yī yuàn",
     english: "hospital",
   },
   {
-    chiness: "路",
+    chinese: "路",
     pinyin: "lù",
     english: "road",
   },
   {
-    chiness: "离",
+    chinese: "离",
     pinyin: "lí",
     english: "from",
   },
   {
-    chiness: "这里",
+    chinese: "这里",
     pinyin: "zhè lǐ",
     english: "here",
   },
   {
-    chiness: "远",
+    chinese: "远",
     pinyin: "yuǎn",
     english: "far",
   },
   {
-    chiness: "知道",
+    chinese: "知道",
     pinyin: "zhī dào",
     english: "to know",
   },
   {
-    chiness: "别客气",
+    chinese: "别客气",
     pinyin: "bié kè qì",
     english: "you are welcome",
   },
@@ -357,12 +359,236 @@ const conversation = [
   },
 ];
 
-function Game() {
+vocabulary = vocabulary.sort(() => Math.random() - 0.5);
+
+const VocabularyMatcher = () => {
+  const [matches, setMatches] = useState([]);
+  const [selectedWord, setSelectedWord] = useState(null);
+  const [matchResult, setMatchResult] = useState("");
+  const [vocabularyData, setVocabularyData] = useState(vocabulary);
+  const [englishVocabularyData, setEnglishVocabularyData] = useState(
+    [...vocabulary].sort(() => Math.random() - 0.5)
+  );
+
+  const handleMatch = (word) => {
+    if (!matches.includes(word) && word.english === selectedWord.english) {
+      setMatches([...matches, word]);
+      setSelectedWord(null);
+      setMatchResult("Correct match!"); // Set matchResult to "Correct match!"
+    } else {
+      setSelectedWord(null);
+      setMatchResult("Incorrect match."); // Set matchResult to "Incorrect match."
+    }
+  };
+
+  const handleSelectWord = (word) => {
+    if (!matches.includes(word) && selectedWord === null) {
+      setSelectedWord(word);
+    }
+  };
+
   return (
-    <div>
-      <Navbar />
-      <h1>Lesson 8 : </h1>
+    <div className="Matcher">
+      <h1>Vocabulary Matcher (Select chinese word 1st)</h1>
+      <div>
+        <h2>Matched Words:</h2>
+        <ul>
+          {matches.map((word, index) => (
+            <li key={index}>
+              <>
+                {word.chinese}
+                <br />
+                {word.pinyin}
+                <br />
+                {word.english}
+              </>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div>
+          <h2>Chinese Words:</h2>
+          {vocabularyData.map((word, index) => (
+            <button
+              key={index}
+              onClick={() => handleSelectWord(word)}
+              disabled={
+                matches.includes(word) ||
+                (selectedWord && selectedWord !== word)
+              }
+            >
+              {word.chinese} <br /> {word.pinyin}
+            </button>
+          ))}
+        </div>
+        <div>
+          <h2>English Words:</h2>
+          {englishVocabularyData.map((word, index) => (
+            <button
+              key={index}
+              onClick={() => handleMatch(word)}
+              disabled={matches.includes(word)}
+            >
+              {word.english}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+function Learn() {
+  const [Num, setNum] = useState(0);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [isAnyTextBeingRead, setIsAnyTextBeingRead] = useState(false);
+
+  const handleReadText = (translatedText) => {
+    setIsAnyTextBeingRead(true);
+
+    const targetLanguage = "zh";
+    const speech = new SpeechSynthesisUtterance(translatedText);
+    speech.lang = targetLanguage;
+    speech.rate = 0.8; // Slow down the speech
+
+    const speechPromise = new Promise((resolve) => {
+      speech.onend = resolve;
+    });
+
+    window.speechSynthesis.speak(speech);
+  };
+
+  return (
+    <div className="Lesson3">
+      {/* Vocabulary */}
+      <div className="Vocabulary">
+        <h1>Vocabulary</h1>
+        <ul>
+          {vocabulary.map((item, index) => (
+            <li
+              key={index}
+              className="boarder"
+              onClick={() => handleReadText(item.chinese)}
+              disabled={isAnyTextBeingRead}
+            >
+              <p>{item.pinyin}</p>
+              <p>{item.chinese}</p>
+              <p>{item.english}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Conversation */}
+      <h1>Conversation</h1>
+      <div className="Conversation">
+        <ul>
+          {conversation.map((item, index) => (
+            <li
+              key={index}
+              className={`Conversation${item.who === "A" ? "women" : "men"}`}
+            >
+              <div>
+                {item.who === "A" ? (
+                  <>
+                    <img
+                      src={item.who === "A" ? Women : Men}
+                      alt=""
+                      onClick={() => handleReadText(item.chinese)}
+                    />
+                    <button
+                      onClick={() => handleReadText(item.chinese)}
+                      disabled={isSpeaking}
+                      style={{ fontSize: "20px" }}
+                      className="read"
+                    >
+                      🔊
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => handleReadText(item.chinese)}
+                      disabled={isSpeaking}
+                      style={{ fontSize: "20px" }}
+                      className="read"
+                    >
+                      🔊
+                    </button>
+                    <img
+                      src={item.who === "A" ? Women : Men}
+                      alt=""
+                      onClick={() => handleReadText(item.chinese)}
+                    />
+                  </>
+                )}
+              </div>
+              {item.who === "A" ? (
+                <>
+                  <p>
+                    {item.who} : {item.pinyin}
+                  </p>
+                  <p>
+                    {item.who} : {item.chinese}
+                  </p>
+                  <p>
+                    {item.who} : {item.english}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p>
+                    {item.pinyin} : {item.who}
+                  </p>
+                  <p>
+                    {item.chinese} : {item.who}
+                  </p>
+                  <p>
+                    {item.english} : {item.who}
+                  </p>
+                </>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
-export default Game;
+
+function Main() {
+  const [showVocabularyMatcher, setShowVocabularyMatcher] = useState(false);
+  const [showLearn, setShowLearn] = useState(true);
+
+  const handleShowVocabularyMatcher = () => {
+    setShowVocabularyMatcher(true);
+    setShowLearn(false);
+  };
+
+  const handleShowLearn = () => {
+    setShowVocabularyMatcher(false);
+    setShowLearn(true);
+  };
+
+  return (
+    <div className="Main">
+      <Navbar />
+      <div style={{ textAlign: "center", padding: "20px" }}>
+        <h1>Lesson 8 : I live in Yangguang residential.</h1>
+        <h2>Wǒ zhù zài yángguāng xiǎoqū</h2>
+        <h3>我住在阳光小区</h3>
+      </div>
+      <div className="Chooes">
+        <button onClick={handleShowLearn}>Learn</button>
+        <button onClick={handleShowVocabularyMatcher}>
+          Game Vocabulary Matcher
+        </button>
+      </div>
+      {showVocabularyMatcher && <VocabularyMatcher />}
+      {showLearn && <Learn />}
+    </div>
+  );
+}
+
+export default Main;

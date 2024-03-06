@@ -5,7 +5,7 @@ import Navbar from "../Navbar";
 import Men from ".././img/m.png";
 import Women from ".././img/w.png";
 
-const vocabulary = [
+var vocabulary = [
   {
     pinyin: "jiā tíng",
     chinese: "家庭",
@@ -54,22 +54,22 @@ const vocabulary = [
   {
     pinyin: "wài gōng",
     chinese: "外公",
-    english: "maternal grandfather",
+    english: "grandfather",
   },
   {
     pinyin: "wài po",
     chinese: "外婆",
-    english: "maternal grandmother",
+    english: "grandmother",
   },
   {
     pinyin: "nǎi nai",
     chinese: "奶奶",
-    english: "paternal grandmother",
+    english: "grandmother",
   },
   {
     pinyin: "yé ye",
     chinese: "爷爷",
-    english: "paternal grandfather",
+    english: "grandfather",
   },
   {
     pinyin: "mā ma",
@@ -152,8 +152,8 @@ const vocabulary = [
     english: "often",
   },
   {
-    chinese: "máng",
-    pinyin: "忙",
+    pinyin: "máng",
+    chinese: "忙",
     english: "busy",
   },
   {
@@ -162,33 +162,33 @@ const vocabulary = [
     english: "community",
   },
   {
-    chinese: "piào liang",
-    pinyin: "漂亮",
+    pinyin: "piào liang",
+    chinese: "漂亮",
     english: "beautiful",
   },
   {
-    chinese: "yī gòng",
-    pinyin: "一共",
+    pinyin: "yī gòng",
+    chinese: "一共",
     english: "total",
   },
   {
-    chinese: "hé",
-    pinyin: "和",
+    pinyin: "hé",
+    chinese: "和",
     english: "and",
   },
   {
-    chinese: "yī qǐ",
-    pinyin: "一起",
+    pinyin: "yī qǐ",
+    chinese: "一起",
     english: "together",
   },
   {
-    chinese: "lǜ shī",
-    pinyin: "律师",
+    pinyin: "lǜ shī",
+    chinese: "律师",
     english: "lawyer",
   },
   {
-    chinese: "zhù",
-    pinyin: "住",
+    pinyin: "zhù",
+    chinese: "住",
     english: "live",
   },
   {
@@ -198,7 +198,7 @@ const vocabulary = [
   },
 ];
 
-const conversation1 = [
+const conversation = [
   {
     who: "A",
     pinyin: "Nǐ xiǎng wàipóle?",
@@ -328,7 +328,87 @@ const conversation1 = [
   },
 ];
 
-function Game() {
+vocabulary = vocabulary.sort(() => Math.random() - 0.5);
+
+const VocabularyMatcher = () => {
+  const [matches, setMatches] = useState([]);
+  const [selectedWord, setSelectedWord] = useState(null);
+  const [matchResult, setMatchResult] = useState("");
+  const [vocabularyData, setVocabularyData] = useState(vocabulary);
+  const [englishVocabularyData, setEnglishVocabularyData] = useState(
+    [...vocabulary].sort(() => Math.random() - 0.5)
+  );
+
+  const handleMatch = (word) => {
+    if (!matches.includes(word) && word.english === selectedWord.english) {
+      setMatches([...matches, word]);
+      setSelectedWord(null);
+      setMatchResult("Correct match!"); // Set matchResult to "Correct match!"
+    } else {
+      setSelectedWord(null);
+      setMatchResult("Incorrect match."); // Set matchResult to "Incorrect match."
+    }
+  };
+
+  const handleSelectWord = (word) => {
+    if (!matches.includes(word) && selectedWord === null) {
+      setSelectedWord(word);
+    }
+  };
+
+  return (
+    <div className="Matcher">
+      <h1>Vocabulary Matcher (Select chinese word 1st)</h1>
+      <div>
+        <h2>Matched Words:</h2>
+        <ul>
+          {matches.map((word, index) => (
+            <li key={index}>
+              <>
+                {word.chinese}
+                <br />
+                {word.pinyin}
+                <br />
+                {word.english}
+              </>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div>
+          <h2>Chinese Words:</h2>
+          {vocabularyData.map((word, index) => (
+            <button
+              key={index}
+              onClick={() => handleSelectWord(word)}
+              disabled={
+                matches.includes(word) ||
+                (selectedWord && selectedWord !== word)
+              }
+            >
+              {word.chinese} <br /> {word.pinyin}
+            </button>
+          ))}
+        </div>
+        <div>
+          <h2>English Words:</h2>
+          {englishVocabularyData.map((word, index) => (
+            <button
+              key={index}
+              onClick={() => handleMatch(word)}
+              disabled={matches.includes(word)}
+            >
+              {word.english}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+function Learn() {
   const [Num, setNum] = useState(0);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isAnyTextBeingRead, setIsAnyTextBeingRead] = useState(false);
@@ -346,15 +426,11 @@ function Game() {
     });
 
     window.speechSynthesis.speak(speech);
-
-    speechPromise.then(() => {
-      setIsAnyTextBeingRead(false);
-    });
   };
 
   return (
     <div className="Lesson3">
-      <Navbar />
+      
       {/* Vocabulary */}
       <div className="Vocabulary">
         <h1>Vocabulary</h1>
@@ -378,7 +454,7 @@ function Game() {
       <h1>Conversation</h1>
       <div className="Conversation">
         <ul>
-          {conversation1.map((item, index) => (
+          {conversation.map((item, index) => (
             <li
               key={index}
               className={`Conversation${
@@ -453,4 +529,38 @@ function Game() {
   );
 }
 
-export default Game;
+function Main() {
+  const [showVocabularyMatcher, setShowVocabularyMatcher] = useState(false);
+  const [showLearn, setShowLearn] = useState(true);
+
+  const handleShowVocabularyMatcher = () => {
+    setShowVocabularyMatcher(true);
+    setShowLearn(false);
+  };
+
+  const handleShowLearn = () => {
+    setShowVocabularyMatcher(false);
+    setShowLearn(true);
+  };
+
+  return (
+    <div className="Main">
+      <Navbar />
+      <div style={{ textAlign: "center", padding: "20px" }}>
+        <h1>Lesson 4 : I like a Big family.</h1>
+        <h2>Wǒ xǐhuān dà jiātíng</h2>
+        <h3>我喜欢大家庭</h3>
+      </div>
+      <div className="Chooes">
+        <button onClick={handleShowLearn}>Learn</button>
+        <button onClick={handleShowVocabularyMatcher}>
+          Game Vocabulary Matcher
+        </button>
+      </div>
+      {showVocabularyMatcher && <VocabularyMatcher />}
+      {showLearn && <Learn />}
+    </div>
+  );
+}
+
+export default Main;

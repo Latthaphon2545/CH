@@ -1,7 +1,9 @@
 // Game.js
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./Lesson1.css";
 import Navbar from "../Navbar";
+
+import bpmf from "../assets/bpmf.mp4";
 
 const pinyinChart = [
   "b",
@@ -93,7 +95,11 @@ function Game() {
   return (
     <div>
       <Navbar />
-      <div></div>
+      <div style={{ textAlign: "center", padding: "20px" }}>
+        <h1>Lesson 1 : Pinyin</h1>
+        <h2>Pīnyīn</h2>
+        <h2>拼音</h2>
+      </div>
       <div className="game-container">
         {pinyinChartVisible && (
           <div className="pinyin-chart">
@@ -102,6 +108,10 @@ function Game() {
                 {pinyin}
               </p>
             ))}
+            <div>
+              {<video src={bpmf} controls autoPlay></video>}
+              <p>https://youtu.be/EReU1BKtAXo?si=i6MPYMbYc_q51eH-</p>
+            </div>
           </div>
         )}
 
@@ -132,11 +142,11 @@ function Game() {
           )}
         </div>
         <button className="start-button" onClick={startGame}>
-          Start Flashcards
+          Start
         </button>
         <div className="instructions">
           <h2>Instructions</h2>
-          <p>1. Click the "Start Flashcards" button to start the game.</p>
+          <p>1. Click the "Start" button to start the game.</p>
           <p>2. A pinyin will be shown on the flashcard.</p>
           <p>3. Type the next pinyin in the input box.</p>
           <p>

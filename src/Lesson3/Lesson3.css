@@ -1,3 +1,12 @@
+.Lesson3{
+max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
 .number ul,
 .Vocabulary ul {
     display: flex;
@@ -5,7 +14,7 @@
     padding: 0;
     margin: 0;
     overflow: auto;
-    height: 170px;
+    height: 200px;
 }
 
 .number ul li,.Vocabulary ul li {
@@ -22,7 +31,7 @@
 
 .boarder {
     width: 100px;
-    height: 150px;
+    height: 170px;
     border-radius: 10%;
     background-color: #fff;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -35,10 +44,26 @@
     text-align: center;
 }
 
+.boarder ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow: auto;
+    height: 170px;
+}
+
+.boarder ul li {
+    flex: 0 0 auto;
+    width: 100px;
+    height: 170px;
+    margin-right: 10px;
+}
+
 .number ul :hover,
 .Vocabulary ul :hover,
 .day ul :hover {
-    background-color: #786b6b;
+    background-color: #939191;
 }
 
 .Monday,
@@ -266,4 +291,99 @@
     .Conversation ul {
         width: 60%;
     }
+}
+
+
+.Main h1,
+.Main h2,
+.Main h3 {
+    color: #333;
+}
+
+.Chooes {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.Chooes button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    color: #fff;
+    background-color: #007BFF;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.Chooes button:hover {
+    background-color: #0056b3;
+}
+
+.Matcher {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.Matcher h1 {
+    color: #333;
+    text-align: center;
+}
+
+.Matcher h2 {
+    color: #555;
+}
+
+.Matcher ul {
+    list-style-type: none;
+    display: flex;
+    padding: 0;
+    overflow-x: auto;
+    height: 100px;
+}
+
+.Matcher li {
+    margin-bottom: 10px;
+    margin-right: 3%;
+    text-align: center;
+    padding: 10px; /* Adjust this value as needed */
+    background-color: #a0caa2;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.411);
+}
+
+.Matcher button {
+    background-color: #585858;
+    color: #fff;
+    padding: 10px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.Matcher button:disabled {
+    background-color: #45a049;
+    cursor: not-allowed;
+}
+
+.Matcher button:hover {
+    background-color: #ccc;
+}
+
+.MatchResult p {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.MatchResult p.correct {
+    color: #4caf50;
+}
+
+.MatchResult p.incorrect {
+    color: #e74c3c;
 }

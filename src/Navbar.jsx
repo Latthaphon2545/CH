@@ -10,13 +10,10 @@ function Navbar() {
 
     return (
         <nav className="navbar">
-            <div className="logo">
-                {/* Add your logo here */}
-            </div>
 
             <div className="NavBar__links">
                 {lessons.map((lesson) => (
-                    <Link className="desktopMenuListItems" to={`/lesson${lesson}`}>Lesson {lesson}</Link>
+                    <Link key={lesson} className="desktopMenuListItems" to={`/lesson${lesson}`}>Lesson {lesson}</Link>
                 ))}
             </div>
 
@@ -25,7 +22,7 @@ function Navbar() {
             {showMenu && (
                 <div className="NavMenu__links">
                     {lessons.map((lesson) => (
-                        <Link className="ListItem" to={`/lesson${lesson}`}>Lesson {lesson}</Link>
+                        <Link key={lesson} className="ListItem" to={`/lesson${lesson}`}>Lesson {lesson}</Link>
                     ))}
                 </div>
             )}
@@ -36,7 +33,9 @@ function Navbar() {
                 className="mobMenu"
                 onClick={() => setShowMenu(!showMenu)}
             />
+            <p>Can click for listen to the word (Learn Section Only) </p>
         </nav>
+        
     );
 }
 

@@ -1,12 +1,11 @@
 // Game.js
 import React, { useState, useEffect } from "react";
-import "./Lesson5.css";
 import Navbar from "../Navbar";
 import Men from ".././img/m.png";
 import Women from ".././img/w.png";
 
 
-const vocabulary = [
+var vocabulary = [
   {
     chinese: "几号",
     pinyin: "jǐ hào",
@@ -128,12 +127,236 @@ const conversation = [
 // To ask about someone's birthday, you can use the phrase "你生日几号" (nǐ shēngrì jǐ hào).
 
 
-function Game() {
+vocabulary = vocabulary.sort(() => Math.random() - 0.5);
+
+const VocabularyMatcher = () => {
+  const [matches, setMatches] = useState([]);
+  const [selectedWord, setSelectedWord] = useState(null);
+  const [matchResult, setMatchResult] = useState("");
+  const [vocabularyData, setVocabularyData] = useState(vocabulary);
+  const [englishVocabularyData, setEnglishVocabularyData] = useState(
+    [...vocabulary].sort(() => Math.random() - 0.5)
+  );
+
+  const handleMatch = (word) => {
+    if (!matches.includes(word) && word.english === selectedWord.english) {
+      setMatches([...matches, word]);
+      setSelectedWord(null);
+      setMatchResult("Correct match!"); // Set matchResult to "Correct match!"
+    } else {
+      setSelectedWord(null);
+      setMatchResult("Incorrect match."); // Set matchResult to "Incorrect match."
+    }
+  };
+
+  const handleSelectWord = (word) => {
+    if (!matches.includes(word) && selectedWord === null) {
+      setSelectedWord(word);
+    }
+  };
+
   return (
-    <div>
-      <Navbar />
-      <h1>Lesson 5 : </h1>
+    <div className="Matcher">
+      <h1>Vocabulary Matcher (Select chinese word 1st)</h1>
+      <div>
+        <h2>Matched Words:</h2>
+        <ul>
+          {matches.map((word, index) => (
+            <li key={index}>
+              <>
+                {word.chinese}
+                <br />
+                {word.pinyin}
+                <br />
+                {word.english}
+              </>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div>
+          <h2>Chinese Words:</h2>
+          {vocabularyData.map((word, index) => (
+            <button
+              key={index}
+              onClick={() => handleSelectWord(word)}
+              disabled={
+                matches.includes(word) ||
+                (selectedWord && selectedWord !== word)
+              }
+            >
+              {word.chinese} <br /> {word.pinyin}
+            </button>
+          ))}
+        </div>
+        <div>
+          <h2>English Words:</h2>
+          {englishVocabularyData.map((word, index) => (
+            <button
+              key={index}
+              onClick={() => handleMatch(word)}
+              disabled={matches.includes(word)}
+            >
+              {word.english}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+function Learn() {
+  const [Num, setNum] = useState(0);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [isAnyTextBeingRead, setIsAnyTextBeingRead] = useState(false);
+
+  const handleReadText = (translatedText) => {
+    setIsAnyTextBeingRead(true);
+
+    const targetLanguage = "zh";
+    const speech = new SpeechSynthesisUtterance(translatedText);
+    speech.lang = targetLanguage;
+    speech.rate = 0.8; // Slow down the speech
+
+    const speechPromise = new Promise((resolve) => {
+      speech.onend = resolve;
+    });
+
+    window.speechSynthesis.speak(speech);
+  };
+
+  return (
+    <div className="Lesson3">
+      {/* Vocabulary */}
+      <div className="Vocabulary">
+        <h1>Vocabulary</h1>
+        <ul>
+          {vocabulary.map((item, index) => (
+            <li
+              key={index}
+              className="boarder"
+              onClick={() => handleReadText(item.chinese)}
+              disabled={isAnyTextBeingRead}
+            >
+              <p>{item.pinyin}</p>
+              <p>{item.chinese}</p>
+              <p>{item.english}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Conversation */}
+      <h1>Conversation</h1>
+      <div className="Conversation">
+        <ul>
+          {conversation.map((item, index) => (
+            <li
+              key={index}
+              className={`Conversation${item.who === "A" ? "women" : "men"}`}
+            >
+              <div>
+                {item.who === "A" ? (
+                  <>
+                    <img
+                      src={item.who === "A" ? Women : Men}
+                      alt=""
+                      onClick={() => handleReadText(item.chinese)}
+                    />
+                    <button
+                      onClick={() => handleReadText(item.chinese)}
+                      disabled={isSpeaking}
+                      style={{ fontSize: "20px" }}
+                      className="read"
+                    >
+                      🔊
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => handleReadText(item.chinese)}
+                      disabled={isSpeaking}
+                      style={{ fontSize: "20px" }}
+                      className="read"
+                    >
+                      🔊
+                    </button>
+                    <img
+                      src={item.who === "A" ? Women : Men}
+                      alt=""
+                      onClick={() => handleReadText(item.chinese)}
+                    />
+                  </>
+                )}
+              </div>
+              {item.who === "A" ? (
+                <>
+                  <p>
+                    {item.who} : {item.pinyin}
+                  </p>
+                  <p>
+                    {item.who} : {item.chinese}
+                  </p>
+                  <p>
+                    {item.who} : {item.english}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p>
+                    {item.pinyin} : {item.who}
+                  </p>
+                  <p>
+                    {item.chinese} : {item.who}
+                  </p>
+                  <p>
+                    {item.english} : {item.who}
+                  </p>
+                </>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
-export default Game;
+
+function Main() {
+  const [showVocabularyMatcher, setShowVocabularyMatcher] = useState(false);
+  const [showLearn, setShowLearn] = useState(true);
+
+  const handleShowVocabularyMatcher = () => {
+    setShowVocabularyMatcher(true);
+    setShowLearn(false);
+  };
+
+  const handleShowLearn = () => {
+    setShowVocabularyMatcher(false);
+    setShowLearn(true);
+  };
+
+  return (
+    <div className="Main">
+      <Navbar />
+      <div style={{ textAlign: "center", padding: "20px" }}>
+        <h1>Lesson 5 : My birthday.</h1>
+        <h2>Wǒ de shēngrì</h2>
+        <h3>我的生日</h3>
+      </div>
+      <div className="Chooes">
+        <button onClick={handleShowLearn}>Learn</button>
+        <button onClick={handleShowVocabularyMatcher}>
+          Game Vocabulary Matcher
+        </button>
+      </div>
+      {showVocabularyMatcher && <VocabularyMatcher />}
+      {showLearn && <Learn />}
+    </div>
+  );
+}
+
+export default Main;
