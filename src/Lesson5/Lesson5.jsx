@@ -218,7 +218,7 @@ function Learn() {
     const targetLanguage = "zh";
     const speech = new SpeechSynthesisUtterance(translatedText);
     speech.lang = targetLanguage;
-    speech.rate = 0.8; // Slow down the speech
+    speech.rate = 0.5;
 
     const speechPromise = new Promise((resolve) => {
       speech.onend = resolve;
