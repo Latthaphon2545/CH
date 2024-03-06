@@ -1,0 +1,105 @@
+.navbar {
+    height: 5rem;
+    width: 100vw;
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    background-color: black;
+}
+
+.logo {
+    object-fit: cover;
+    height: 3rem;
+    width: 4rem;
+}
+
+.desktopMenuListItems {
+    margin: 1.2rem;
+    cursor: pointer;
+}
+
+.desktopMenuListItems:hover {
+    color: #ff0000;
+    padding-bottom: 0.5rem;
+    border-bottom: 3px solid #ff0000;
+}
+
+.NavBarButton {
+    font-weight: 600;
+    background-color: #ff0000;
+    color: #ffffff;
+    padding: 0.8rem 1rem;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.NavBarButton:hover {
+    background-color: #cc0000;
+}
+
+.active {
+    color: #ff0000;
+    padding-bottom: 0.2rem;
+    border-bottom: 3px solid #ff0000;
+}
+
+.NavMenu__links {
+    position: absolute;
+    top: 4rem;
+    right: 2rem;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+    height: fit-content;
+    min-width: 15rem;
+    background: rgb(0, 0, 0);
+    border-radius: 1rem;
+}
+
+.ListItem{
+    color: white;
+    padding: 0.5rem 3rem;
+    margin: 0.25rem;
+    background: rgb(99, 95, 95);
+}
+
+.mobMenu{
+    display: none;
+    object-fit: cover;
+    height: 1.8rem;
+}
+
+.NavBarButton{
+    display: none;
+}
+
+@media screen and (max-width: 720px) {
+    .desktopMenuListItems{
+        display: none;
+    }
+
+    .mobMenu {
+        display: flex;
+    }
+
+    .NavBarButton{
+        display: none;
+    }
+
+    .NavBar__links{
+        display: none;
+    }
+
+    .navbar{
+        width: 19rem;
+    }
+}

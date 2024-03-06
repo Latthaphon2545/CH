@@ -1,7 +1,6 @@
 .number ul,
 .Vocabulary ul {
     display: flex;
-    /* flex-wrap: wrap; */
     list-style: none;
     padding: 0;
     margin: 0;
@@ -161,15 +160,40 @@
 
 @media only screen and (max-width: 600px) {
     /* Styles for mobile screens */
+    body {
+            overflow-x: hidden;
+        }
+
     .number ul,
     .Vocabulary ul,
+    .day ul{
+        display: flex;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        overflow: auto;
+        height: 170px;
+    }
+
     .day ul {
-        flex-direction: column;
+        justify-content: none;
+        margin: 0;
+    }
+
+    .Monday,
+    .Tuesday,
+    .Wednesday,
+    .Thursday,
+    .Friday,
+    .Saturday,
+    .Sunday {
+        flex: 1 0 30%;
+    margin-right: 10px;
     }
 
     .number ul li,
     .Vocabulary ul li {
-        flex: 1 0 100%;
+        flex: 1 0 30%;
         margin-right: 0;
     }
 
