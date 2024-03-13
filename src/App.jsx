@@ -6,6 +6,7 @@ import Lesson2 from "./Lesson2/Lesson2";
 import Lesson3 from "./Lesson3/Lesson3";
 import Lesson4 from "./Lesson4/Lesson4";
 import Lesson5 from "./Lesson5/Lesson5";
+import Lesson6 from "./Lesson6/Lesson6";
 import Lesson7 from "./Lesson7/Lesson7";
 import Lesson8 from "./Lesson8/Lesson8";
 import Lesson9 from "./Lesson9/Lesson9";
@@ -22,6 +23,7 @@ function App() {
         <Route path="/lesson3" element={<Lesson3 />} />
         <Route path="/lesson4" element={<Lesson4 />} />
         <Route path="/lesson5" element={<Lesson5 />} />
+        <Route path="/lesson6" element={<Lesson6 />} />
         <Route path="/lesson7" element={<Lesson7 />} />
         <Route path="/lesson8" element={<Lesson8 />} />
         <Route path="/lesson9" element={<Lesson9 />} />
